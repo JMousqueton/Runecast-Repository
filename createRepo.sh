@@ -5,7 +5,7 @@
 #description     : Create a local repository for RuneCast Analyzer
 #author	      	 : Julien Mousqueton (@JMousqueton)
 #date            : 20200605
-#version         : 0.1
+#version         : 1.0
 #usage		       : bash createRepo.sh
 #notes           : Check on Ubuntu.
 #==============================================================================
@@ -13,7 +13,7 @@
 #==============================================================================
 Root="/var/www/updates-runecast" # Change with your own path
 FQDN="updates-runecast.mousqueton.io" # Change with your FQDN
-SSL=true #Generate SSL Certificat
+SSL=false #Generate SSL Certificat
 MAIL='' # Email if SSL is true (need by Let's Encrypt)
 
 #==============================================================================
@@ -23,16 +23,16 @@ MAIL='' # Email if SSL is true (need by Let's Encrypt)
 #==============================================================================
 # Main
 #==============================================================================
-
+# Install requirement packages 
 sudo apt updates
 sudo apt install nginx apt-mirror -y
 if [ $SSL ]; then
   sudo apt install certbot -y
 fi
 
-
 #Create a backup copy of mirror.list
-sudo vm /etc/apt/mirror.list "/etc/apt/mirror.list.$(mktemp XXXXXXXXX)"
+sudo mv /etc/apt/mirror.list "/etc/apt/mirror.list.$(mktemp XXXXXXXXX)"
+
 # Create a new mirror.list file
 sudo bash -c 'cat << EOF > /etc/apt/mirror.list
 ############# config ##################
@@ -106,5 +106,5 @@ sudo chmod +x /usr/local/bin/checkchange
 
 # Generate SSL Certificat if SSL is set to true
 if [ $SSL ]; then
-certbot --nginx -d $FQDN --agree-tos -m $MAIL -n --redirect
+sudo certbot --nginx -d $FQDN --agree-tos -m $MAIL -n --redirect
 fi
