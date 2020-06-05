@@ -4,7 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/JMousqueton/Runecast-Repository/blob/master/LICENSE)
 [![Twitter: JMousqueton](https://img.shields.io/twitter/follow/JMousqueton.svg?style=social)](https://twitter.com/JMousqueton)
 
-> Script to host your own repository for Runecast Analyzer on Ubuntu
+> Script to host your own repository for Runecast Analyzer on Ubuntu using nginx
 
 ### 🏠 [Homepage](https://www.runecast.com)
 
@@ -26,7 +26,7 @@ vi createRepo.sh
 
 -   Installation steps
 
-1.  Install nginx apt-mirror and certbot  
+1.  Install nginx apt-mirror and certbot
 2.  Modify mirror.list
 3.  Create a vhost config file for nginx
 4.  Create SSL Certificat (optional)
@@ -36,7 +36,7 @@ vi createRepo.sh
 
 -   Documentation in French 🇫🇷 is available on [my blog](https://www.julienmousqueton.fr/creer-son-repository-runecast-analyzer)
 
-## :white_check_mark: Test  
+## :white_check_mark: Test
 
 -   Tested on Ubuntu 18.04 server
 
@@ -46,7 +46,7 @@ vi createRepo.sh
 
 *   Website: [https://www.julienmousqueton.fr](https://www.julienmousqueton.fr)
 *   Twitter: [@JMousqueton](https://twitter.com/JMousqueton)
-*   Github: [@JMousqueton](https://github.com/JMousqueton)
+*   Github: [@JMousqueton](https://github.com/jmousqueton)
 *   LinkedIn: [@julienmousqueton](https://linkedin.com/in/julienmousqueton)
 
 ## 🤝 Contributing
@@ -58,7 +58,6 @@ Feel free to check [issues page](https://github.com/JMousqueton/Runecast-Reposit
 ## Show your support
 
 Give a ⭐️ if this project helped you!
-
 
 ## 📝 License
 
