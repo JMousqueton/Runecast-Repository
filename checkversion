@@ -37,7 +37,7 @@ fi
 if ! [[ -z $(find $Root/definitions/version.txt -cmin -180) ]]; then
     # The file was changed, so:
     echo "New Definition : Chnage detected"
-    mail -r $From -s "New Runecast definiton" $To < $Root/definitions/version.txt
+    mail -r $From -s "New Runecast definition" $To < $Root/definitions/version.txt
 else
     echo "New Definition : No change"
 fi
