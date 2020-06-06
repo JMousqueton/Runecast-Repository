@@ -1,0 +1,91 @@
+#!/bin/bash
+
+#==============================================================================
+#title           : RunecastUpdate
+#description     : Update Runecast repository if new version
+#author	      	 : Julien Mousqueton (@JMousqueton)
+#date            : 20200605
+#version         : 3.0
+#usage		       : RunecastUpdateDefinition
+#notes           : Checked on Ubuntu.
+#==============================================================================
+# Check configuation
+#==============================================================================
+ConfFile="/etc/RunecastUpdate.conf"
+
+if [ -f "$ConfFile" ]; then
+# shellcheck source=RunecastUpdate.conf
+   source "$ConfFile"
+   else
+   echo "Error: No configuration present"
+   exit 1;
+fi
+
+if ! [ -x "$(command -v apt-mirror)" ]; then
+    echo 'Error: apt-mirror is not installed.'
+    exit 1;
+fi
+
+regex="^([A-Za-z]+[A-Za-z0-9]*\+?((\.|\-|\_)?[A-Za-z]+[A-Za-z0-9]*)*)@(([A-Za-z0-9]+)+((\.|\-|\_)?([A-Za-z0-9]+)+)*)+\.([A-Za-z]{2,})+$"
+
+if [ -z "$Root" ]; then
+  echo "Error: Root parameter must be set"
+  exit 1;
+else
+  if [ ! -d "$Root" ]; then
+    echo "Error: $Root must exist"
+  fi
+fi
+
+if [ -z "$Mail" ]; then
+  echo "Error: Mail parameter must be set"
+  exit 1;
+else
+   if [ -z "$To" ]; then
+      echo "Error: To parameter must be configured"
+      exit 1;
+   else
+   if [[ ! $To =~ ${regex} ]]; then
+      echo "Error: To must be a valid email"
+      exit 1;
+   fi
+  fi
+  if [ -z "$From" ]; then
+       echo "Error: From parameter must be configured"
+       exit 1;
+  else
+   if [[ ! $From =~ ${regex} ]]; then
+       echo "Error: From must be a valid email"
+       exit 1;
+   fi
+  fi
+  if ! [ -x "$(command -v mail)" ]; then
+      echo 'Error: mail is not installed.'
+      exit 1;
+  fi
+fi
+
+#==============================================================================
+# Constant
+#==============================================================================
+TEMP=$(mktemp -u XXXXXXXXX)
+#==============================================================================
+# Main
+#==============================================================================
+#Update update repository
+su - apt-mirror -c apt-mirror > /var/spool/apt-mirror/var/cron.log
+
+# Check if new version
+curl -s https://updates.runecast.com/definitions/version.txt -o /tmp/$TEMP
+
+if ! cmp -s "$Root/definitions/version.txt" "/tmp/$TEMP"; then
+  # Get Definition update
+  sudo curl -s https://updates.runecast.com/definitions/kbupdates.bin -o $Root/definitions/kbupdates.bin
+  # Get New version.txt file
+  sudo curl -s https://updates.runecast.com/definitions/version.txt -o $Root/definitions/version.txt
+  # Mail=true
+  if [ $Mail ]; then
+    mail -r $From -s "New Runecast definition" $To < $Root/definitions/version.txt
+  fi
+fi
+rm /tmp/$TEMP

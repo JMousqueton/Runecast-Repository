@@ -1,5 +1,5 @@
 # Welcome to Runecast-Repository 👋
-![Version](https://img.shields.io/badge/version-2.0-blue.svg?cacheSeconds=2592000)
+![Version](https://img.shields.io/badge/version-3.0-blue.svg?cacheSeconds=2592000)
 [![Documentation](https://img.shields.io/badge/documentation-yes-brightgreen.svg)](https://www.julienmousqueton.fr/creer-son-repository-runecast-analyzer)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/JMousqueton/Runecast-Repository/blob/master/LICENSE)
 [![Twitter: JMousqueton](https://img.shields.io/twitter/follow/JMousqueton.svg?style=social)](https://twitter.com/JMousqueton)
@@ -11,48 +11,21 @@
 ## :electric_plug: Install
 
 ```sh
-curl  https://github.com/JMousqueton/Runecast-Repository/blob/master/createRepo.sh
+curl  https://raw.githubusercontent.com/JMousqueton/Runecast-Repository/master/createRepo.sh -o createRepo.sh
 chmod u+x createRepo.sh
+curl  https://raw.githubusercontent.com/JMousqueton/Runecast-Repository/master/RunecastUpdate.conf -o /etc/RunecastUpdate.conf
 ```
 
-Edit variables in createRepo.sh
+Edit /etc/RunecastUpdate.conf
 
 ```sh
-#==============================================================================
-# Variables
-#==============================================================================
-Root="/var/www/updates-runecast" # Change with your own path
-FQDN="updates-runecast.mousqueton.io" # Change with your FQDN
-SSL=false #Generate SSL Certificat
-MAIL='' # Email if SSL is true (need by Let's Encrypt)
-```
-
-
-```sh
-vi createRepo.sh
+vi /etc/RunecastUpdate.conf
 ```
 
 ## :pencil2: Usage
 
 ```sh
 ./createRepo.sh
-```
-
-Edit variables in RunecastUpdateDefinition
-
-```sh
-#==============================================================================
-# Variables
-#==============================================================================
-Root="/var/www/updates-runecast" # Change with your own path
-Mail=true
-To='julien@mousqueton.me'
-From="runecast@mousqueton.io"
-```
-
-
-```sh
-vi /usr/local/bin/RunecastUpdateDefinition
 ```
 
 ## :blue_book: Documentation
@@ -89,7 +62,7 @@ Feel free to check [issues page](https://github.com/JMousqueton/Runecast-Reposit
 
 ## Todo
 
--   Add a configuration file and remove variables in scripts 
+-   Add a configuration file and remove variables in scripts
 
 ## Show your support
 
