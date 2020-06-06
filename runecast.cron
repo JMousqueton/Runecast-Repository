@@ -3,5 +3,5 @@
 #
 0 4     * * *   apt-mirror      /usr/bin/apt-mirror > /var/spool/apt-mirror/var/cron.log
 30 4    * * *   root            /usr/local/bin/checkchange
-0 3     * * *   root            curl  https://updates.runecast.com/definitions/kbupdates.bin -o /var/www/updates-runcast/definitions/kbupdates.bin
+0 3     * * *   root            curl https://updates.runecast.com/definitions/kbupdates.bin -o /var/www/updates-runcast/definitions/kbupdates.bin
 10 3    * * *   root            curl https://updates.runecast.com/definitions/version.txt -o /var/www/updates-runcast/definitions/version.txt
