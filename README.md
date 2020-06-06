@@ -87,6 +87,10 @@ Contributions, issues and feature requests are welcome!
 
 Feel free to check [issues page](https://github.com/JMousqueton/Runecast-Repository/issues). You can also take a look at the [contributing guide](https://github.com/JMousqueton/Runecast-Repository/blob/master/CONTRIBUTING.md).
 
+## Todo
+
+-   Add a configuration file and remove variables in scripts 
+
 ## Show your support
 
 Give a ⭐️ if this project helped you!
