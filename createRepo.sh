@@ -33,7 +33,8 @@ else
   fi
 fi
 
-if [ -z "$To" ]; then
+if [ $SSL ]; then
+  if [ -z "$To" ]; then
       echo "Error: To parameter must be configured"
       exit 1;
    else
@@ -41,6 +42,7 @@ if [ -z "$To" ]; then
       echo "Error: To must be a valid email"
       exit 1;
    fi
+ fi
 fi
 
 #==============================================================================
@@ -82,6 +84,10 @@ deb https://updates.runecast.com/runecast-analyzer-vmware /
 clean https://updates.runecast.com/runecast-analyzer-vmware
 EOF'
 
+
+#Create Repo Directory
+mkdir -p $Root/definitions
+
 # Run a manual Sync
 sudo -u apt-mirror apt-mirror
 
@@ -122,7 +128,6 @@ sudo bash -c 'cat << EOF > /etc/cron.d/runecast.cron
 EOF'
 
 # update definition manually
-mkdir -p $Root/definitions
 sudo curl https://raw.githubusercontent.com/JMousqueton/Runecast-Repository/master/RunecastUpdate -o /usr/local/bin/RunecastUpdate
 sudo chmod +x /usr/local/bin/RunecastUpdate
 sudo RunecastUpdateDefinition
