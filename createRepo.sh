@@ -19,11 +19,11 @@ MAIL='' # Email if SSL is true (need by Let's Encrypt)
 #==============================================================================
 # Constant
 #==============================================================================
-
+TEMP=$(mktemp XXXXXXXXX)
 #==============================================================================
 # Main
 #==============================================================================
-# Install requirement packages 
+# Install requirement packages
 sudo apt updates
 sudo apt install nginx apt-mirror -y
 if [ $SSL ]; then
@@ -31,7 +31,7 @@ if [ $SSL ]; then
 fi
 
 #Create a backup copy of mirror.list
-sudo mv /etc/apt/mirror.list "/etc/apt/mirror.list.$(mktemp XXXXXXXXX)"
+sudo mv /etc/apt/mirror.list "/etc/apt/mirror.list.$TEMP"
 
 # Create a new mirror.list file
 sudo bash -c 'cat << EOF > /etc/apt/mirror.list
@@ -61,8 +61,8 @@ sudo -u apt-mirror apt-mirror
 # Create symbolic link
 sudo ln -s  /var/spool/apt-mirror/mirror/updates.runecast.com/ $Root
 
-# Create nginx file
-sudo bash -c 'cat << EOF > /etc/nginx/site-available/runcecast.conf
+# Create a temp nginx file (necessary to easily pass variables)
+cat << EOF > /tmp/runecast.conf.$TEMP
 server {
   server_name $FQDN;
 
@@ -75,10 +75,12 @@ server {
 
  listen *:80;
 }
-EOF'
+EOF
+# Move temp file to destination
+sudo mv /tmp/runecast.conf.$TEMP /etc/nginx/sites-available/runecast.conf
 
 # activate the vhost
-sudo ln -s /etc/nginx/sites-available/runecast.conf /etc/nginx/sites-enables/
+sudo ln -s /etc/nginx/sites-available/runecast.conf /etc/nginx/sites-enabled/
 
 # Restart nginx
 sudo systemctl restart nginx
@@ -96,6 +98,7 @@ sudo bash -c 'cat << EOF > /etc/cron.d/runecast.cron
 EOF'
 
 # update definition manually
+mkdir $Root/definitions
 sudo curl  https://updates.runecast.com/definitions/kbupdates.bin -o $Root/definitions/kbupdates.bin
 sudo curl https://updates.runecast.com/definitions/version.txt -o $Root/definitions/version.txt
 
