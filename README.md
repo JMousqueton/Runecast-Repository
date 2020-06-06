@@ -1,10 +1,10 @@
 # Welcome to Runecast-Repository 👋
-![Version](https://img.shields.io/badge/version-1.0-blue.svg?cacheSeconds=2592000)
+![Version](https://img.shields.io/badge/version-2.0-blue.svg?cacheSeconds=2592000)
 [![Documentation](https://img.shields.io/badge/documentation-yes-brightgreen.svg)](https://www.julienmousqueton.fr/creer-son-repository-runecast-analyzer)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/JMousqueton/Runecast-Repository/blob/master/LICENSE)
 [![Twitter: JMousqueton](https://img.shields.io/twitter/follow/JMousqueton.svg?style=social)](https://twitter.com/JMousqueton)
 
-> Script to host your own repository for Runecast Analyzer on Ubuntu using nginx
+> Script to host your own repository for [Runecast Analyzer](https://www.runecast.com) on Ubuntu using nginx
 
 ### 🏠 [Homepage](https://www.runecast.com)
 
@@ -15,7 +15,7 @@ curl  https://github.com/JMousqueton/Runecast-Repository/blob/master/createRepo.
 chmod u+x createRepo.sh
 ```
 
-Edit the variables in createRepo.sh
+Edit variables in createRepo.sh
 
 ```sh
 #==============================================================================
@@ -29,13 +29,30 @@ MAIL='' # Email if SSL is true (need by Let's Encrypt)
 
 
 ```sh
-vi createRepo.#!/bin/sh
+vi createRepo.sh
 ```
 
 ## :pencil2: Usage
 
 ```sh
 ./createRepo.sh
+```
+
+Edit variables in RunecastUpdateDefinition
+
+```sh
+#==============================================================================
+# Variables
+#==============================================================================
+Root="/var/www/updates-runecast" # Change with your own path
+Mail=true
+To='julien@mousqueton.me'
+From="runecast@mousqueton.io"
+```
+
+
+```sh
+vi /usr/local/bin/RunecastUpdateDefinition
 ```
 
 ## :blue_book: Documentation
@@ -47,8 +64,7 @@ vi createRepo.#!/bin/sh
 3.  Create a vhost config file for nginx
 4.  Create SSL Certificat (optional)
 5.  Create a crontab file
-6.  Manually update mirror and definition
-7.  Modify the configuration of your Runecast Appliance
+7.  Modify the configuration of your [Runecast Appliance](https://www.runecast.com)
 
 -   Documentation in French 🇫🇷 is available on [my blog](https://www.julienmousqueton.fr/creer-son-repository-runecast-analyzer)
 
