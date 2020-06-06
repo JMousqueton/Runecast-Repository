@@ -5,16 +5,43 @@
 #description     : Create a local repository for RuneCast Analyzer
 #author	      	 : Julien Mousqueton (@JMousqueton)
 #date            : 20200605
-#version         : 1.0
+#version         : 3.0
 #usage		       : bash createRepo.sh
 #notes           : Checked on Ubuntu.
 #==============================================================================
 # Variables
 #==============================================================================
-Root="/var/www/updates-runecast" # Change with your own path
-FQDN="updates-runecast.mousqueton.io" # Change with your FQDN
 SSL=false #Generate SSL Certificat
-MAIL='' # Email if SSL is true (need by Let's Encrypt)
+ConfFile="/etc/RunecastUpdate.conf"
+
+if [ -f "$ConfFile" ]; then
+# shellcheck source=RunecastUpdate.conf
+   source "$ConfFile"
+   else
+   echo "Error: No configuration present"
+   exit 1;
+fi
+
+regex="^([A-Za-z]+[A-Za-z0-9]*\+?((\.|\-|\_)?[A-Za-z]+[A-Za-z0-9]*)*)@(([A-Za-z0-9]+)+((\.|\-|\_)?([A-Za-z0-9]+)+)*)+\.([A-Za-z]{2,})+$"
+
+if [ -z "$Root" ]; then
+  echo "Error: Root parameter must be set"
+  exit 1;
+else
+  if [ ! -d "$Root" ]; then
+    echo "Error: $Root must exist"
+  fi
+fi
+
+if [ -z "$To" ]; then
+      echo "Error: To parameter must be configured"
+      exit 1;
+   else
+   if [[ ! $To =~ ${regex} ]]; then
+      echo "Error: To must be a valid email"
+      exit 1;
+   fi
+fi
 
 #==============================================================================
 # Constant
@@ -89,19 +116,18 @@ sudo systemctl restart nginx
 # Install cron.d file  https://github.com/JMousqueton/Runecast-Repository/blob/master/LICENSE
 sudo bash -c 'cat << EOF > /etc/cron.d/runecast.cron
 #
-# Regular cron jobs for the apt-mirror package
+# Regular cron jobs for RunecastUpdate
 #
-20 3     * * *   apt-mirror      /usr/bin/apt-mirror > /var/spool/apt-mirror/var/cron.log
 00 4    * * *   root            /usr/local/bin/RunecastUpdateDefinition
 EOF'
 
 # update definition manually
-mkdir $Root/definitions
-sudo curl https://raw.githubusercontent.com/JMousqueton/Runecast-Repository/master/RunecastUpdateDefinition -o /usr/local/bin/RunecastUpdateDefinition
-sudo chmod +x /usr/local/bin/RunecastUpdateDefinition
+mkdir -p $Root/definitions
+sudo curl https://raw.githubusercontent.com/JMousqueton/Runecast-Repository/master/RunecastUpdate -o /usr/local/bin/RunecastUpdate
+sudo chmod +x /usr/local/bin/RunecastUpdate
 sudo RunecastUpdateDefinition
 
 # Generate SSL Certificat if SSL is set to true
 if [ $SSL ]; then
-sudo certbot --nginx -d $FQDN --agree-tos -m $MAIL -n --redirect
+sudo certbot --nginx -d $FQDN --agree-tos -m $To -n --redirect
 fi

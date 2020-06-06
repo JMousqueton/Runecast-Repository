@@ -1,5 +1,4 @@
 #
-# Regular cron jobs for the apt-mirror package
+# Regular cron jobs for RunecastUpdate
 #
-0 4     * * *   apt-mirror      /usr/bin/apt-mirror > /var/spool/apt-mirror/var/cron.log
-30 4    * * *   root            /usr/local/bin/RunecastUpdateDefinition
+30 4    * * *   root            /usr/local/bin/RunecastUpdate
