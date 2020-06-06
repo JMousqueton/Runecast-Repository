@@ -13,7 +13,23 @@
 ```sh
 curl  https://github.com/JMousqueton/Runecast-Repository/blob/master/createRepo.sh
 chmod u+x createRepo.sh
-vi createRepo.sh
+```
+
+Edit the variables in createRepo.sh
+
+```sh
+#==============================================================================
+# Variables
+#==============================================================================
+Root="/var/www/updates-runecast" # Change with your own path
+FQDN="updates-runecast.mousqueton.io" # Change with your FQDN
+SSL=false #Generate SSL Certificat
+MAIL='' # Email if SSL is true (need by Let's Encrypt)
+```
+
+
+```sh
+vi createRepo.#!/bin/sh
 ```
 
 ## :pencil2: Usage
