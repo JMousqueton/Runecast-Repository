@@ -7,7 +7,7 @@
 #date            : 20200605
 #version         : 1.0
 #usage		       : bash createRepo.sh
-#notes           : Check on Ubuntu.
+#notes           : Checked on Ubuntu.
 #==============================================================================
 # Variables
 #==============================================================================
@@ -19,13 +19,13 @@ MAIL='' # Email if SSL is true (need by Let's Encrypt)
 #==============================================================================
 # Constant
 #==============================================================================
-TEMP=$(mktemp XXXXXXXXX)
+TEMP=$(mktemp -u XXXXXXXXX)
 #==============================================================================
 # Main
 #==============================================================================
 # Install requirement packages
 sudo apt updates
-sudo apt install nginx apt-mirror -y
+sudo apt install nginx mailutils apt-mirror -y
 if [ $SSL ]; then
   sudo apt install certbot -y
 fi
@@ -92,20 +92,14 @@ sudo bash -c 'cat << EOF > /etc/cron.d/runecast.cron
 # Regular cron jobs for the apt-mirror package
 #
 20 3     * * *   apt-mirror      /usr/bin/apt-mirror > /var/spool/apt-mirror/var/cron.log
-0 3     * * *   root            curl  https://updates.runecast.com/definitions/kbupdates.bin -o $Root/definitions/kbupdates.bin
-10 3    * * *   root            curl https://updates.runecast.com/definitions/version.txt -o $Root/definitions/version.txt
-00 4    * * *   root            /usr/local/bin/checkchange
+00 4    * * *   root            /usr/local/bin/RunecastUpdateDefinition
 EOF'
 
 # update definition manually
 mkdir $Root/definitions
-sudo curl  https://updates.runecast.com/definitions/kbupdates.bin -o $Root/definitions/kbupdates.bin
-sudo curl https://updates.runecast.com/definitions/version.txt -o $Root/definitions/version.txt
-
-
-# Install checkchange
-sudo curl https://github.com/JMousqueton/Runecast-Repository/blob/master/checkversion -o /usr/local/bin/checkchange
-sudo chmod +x /usr/local/bin/checkchange
+sudo curl https://raw.githubusercontent.com/JMousqueton/Runecast-Repository/master/RunecastUpdateDefinition -o /usr/local/bin/RunecastUpdateDefinition
+sudo chmod +x /usr/local/bin/RunecastUpdateDefinition
+sudo RunecastUpdateDefinition
 
 # Generate SSL Certificat if SSL is set to true
 if [ $SSL ]; then
