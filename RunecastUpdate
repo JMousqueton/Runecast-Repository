@@ -13,6 +13,11 @@
 #==============================================================================
 ConfFile="/etc/RunecastUpdate.conf"
 
+declare Root
+declare Mail
+declare From
+declare To
+
 if [ -f "$ConfFile" ]; then
 # shellcheck source=RunecastUpdate.conf
    source "$ConfFile"
