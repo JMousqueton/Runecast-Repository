@@ -14,6 +14,9 @@
 SSL=false #Generate SSL Certificat
 ConfFile="/etc/RunecastUpdate.conf"
 
+declare Root
+declare To
+
 if [ -f "$ConfFile" ]; then
 # shellcheck source=RunecastUpdate.conf
    source "$ConfFile"
