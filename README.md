@@ -62,7 +62,7 @@ Feel free to check [issues page](https://github.com/JMousqueton/Runecast-Reposit
 
 ## Todo
 
--   Add a configuration file and remove variables in scripts
+-   ~~Add a configuration file and remove variables in scripts~~
 
 ## Show your support
 
