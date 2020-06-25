@@ -122,18 +122,18 @@ sudo ln -s /etc/nginx/sites-available/runecast.conf /etc/nginx/sites-enabled/
 sudo systemctl restart nginx
 
 
-# Install cron.d file  https://github.com/JMousqueton/Runecast-Repository/blob/master/LICENSE
+# Install cron.d file  
 sudo bash -c 'cat << EOF > /etc/cron.d/runecast.cron
 #
 # Regular cron jobs for RunecastUpdate
 #
-00 4    * * *   root            /usr/local/bin/RunecastUpdateDefinition
+00 4    * * *   root            /usr/local/bin/RunecastUpdate
 EOF'
 
 # update definition manually
 sudo curl https://raw.githubusercontent.com/JMousqueton/Runecast-Repository/master/RunecastUpdate -o /usr/local/bin/RunecastUpdate
 sudo chmod +x /usr/local/bin/RunecastUpdate
-sudo RunecastUpdateDefinition
+sudo RunecastUpdate
 
 # Generate SSL Certificat if SSL is set to true
 if [ $SSL ]; then
