@@ -6,8 +6,9 @@
 #author	      	 : Julien Mousqueton (@JMousqueton)
 #date            : 20200605
 #version         : 3.0
-#usage		       : RunecastUpdateDefinition
-#notes           : Checked on Ubuntu.
+#usage		     : RunecastUpdate
+#notes           : Checked on Ubuntu 18.04
+#                  createrepo.sh must have been launch once before 
 #==============================================================================
 # Check configuation
 #==============================================================================
